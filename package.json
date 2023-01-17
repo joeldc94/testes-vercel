@@ -4,7 +4,7 @@
   "description": "testes em node.js com deploy no Vercel. Funções com envio de e-mail, geração de documento pdf e html, conexão com DB, etc...",
   "main": "index.js",
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "scripts": {
     "start": "node index.js",
