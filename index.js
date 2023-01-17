@@ -8,6 +8,9 @@ const app = express();
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+//file system
+var fs = require('fs');
+
 app.use(express.json());
 
 
@@ -16,13 +19,16 @@ app.get('/email', async  (req, res)=>{
     
     const emailAddr = 'joel@previsio.com.br';
 
+
+    let body = fs.readFileSync('emailTemplate.html', 'utf8');
+
     const msg = {
         to: emailAddr,
         from: process.env.MAIL_USER, // Use the email address or domain you verified above
         replyTo: 'ped@previsio.com.br',
         subject: 'Teste de emails',
         //text: 'Teste com SendGrid email',
-        html: `<h1>Teste de envio de emails!</h1><p>Testando envio de emails com o SendGrid através do Vercel</p>`,
+        html: body,
         /*
         attachments: [
             {
@@ -34,6 +40,7 @@ app.get('/email', async  (req, res)=>{
             }
         ]
         */
+        
         
       };
 
