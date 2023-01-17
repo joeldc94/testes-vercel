@@ -21,6 +21,7 @@ app.get('/email', async  (req, res)=>{
 
 
     let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
+    let attachment = fs.readFileSync(__dirname+'/abc.pdf').toString("base64");
 
     const msg = {
         to: emailAddr,
@@ -29,19 +30,15 @@ app.get('/email', async  (req, res)=>{
         subject: 'Teste de emails',
         //text: 'Teste com SendGrid email',
         html: body,
-        /*
+        
         attachments: [
             {
-                filename: filename,
-                content: buffer.from(result).toString('base64'),
-                type: 'text/html',
-                disposition: 'attachment'
-                //path: rPath
+                filename: 'relatorio.pdf',
+                content: attachment,
+                type: 'application/pdf',
+                disposition: 'attachment'                
             }
-        ]
-        */
-        
-        
+        ] 
       };
 
 
