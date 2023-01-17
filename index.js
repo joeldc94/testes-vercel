@@ -18,9 +18,32 @@ app.use(express.json());
 app.get('/email', async  (req, res)=>{
     
     const emailAddr = 'joel@previsio.com.br';
+    const content = 'test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123!';
 
+    // list all files in the directory
+    fs.readdir(__dirname+'/tmp', (err, files) => {
+        if (err) {
+            throw err
+        }
+    
+        // files object contains all files names
+        // log them on console
+        files.forEach(file => {
+            console.log(file)
+        })
+    })
+
+
+    await fs.writeFileSync(__dirname+'/tmp/abc.txt', content, (err) => {
+        if(err) {
+            console.log(err);
+        }
+    });   
+
+    //read the email body from .html file
     let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
-    let attachment = fs.readFileSync(__dirname+'/tmp/abc.pdf').toString("base64");
+    //read the attachment file from .pdf file
+    let attachment = fs.readFileSync(__dirname+'/tmp/abc.txt').toString("base64");
 
     const msg = {
         to: emailAddr,
@@ -32,9 +55,11 @@ app.get('/email', async  (req, res)=>{
         
         attachments: [
             {
-                filename: 'relatorio.pdf',
+                filename: 'relatorio.txt',
+                //filename: 'relatorio.pdf',
                 content: attachment,
-                type: 'application/pdf',
+                type: 'text/plain',
+                //type: 'application/pdf',
                 disposition: 'attachment'                
             }
         ] 
@@ -44,8 +69,8 @@ app.get('/email', async  (req, res)=>{
     try{
         await sgMail.send(msg);
         console.log('Email enviado com sucesso!');
-        await fs.unlinkSync(__dirname+'/tmp/abc.pdf');
-        console.log('Arquivo deletado');
+        //await fs.unlinkSync(__dirname+'/tmp/abc.pdf');
+        //console.log('Arquivo deletado');
         res.status(200).json('Email enviado com sucesso!');
     } catch(error){
         console.log(error);
