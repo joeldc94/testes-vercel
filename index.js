@@ -21,8 +21,8 @@ app.get('/email', async  (req, res)=>{
     const content = 'test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123!';
 
     // list all files in the directory
-    /*
-    fs.readdir(__dirname+'/tmp', (err, files) => {
+    
+    fs.readdir('/tmp', (err, files) => {
         if (err) {
             throw err
         }
@@ -33,7 +33,7 @@ app.get('/email', async  (req, res)=>{
             console.log(file)
         })
     })
-    */
+    
 
 
     await fs.writeFileSync('/tmp/abc.txt', content, (err) => {
