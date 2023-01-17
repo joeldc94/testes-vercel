@@ -36,7 +36,7 @@ app.get('/email', async  (req, res)=>{
     */
 
 
-    await fs.writeFileSync(__dirname+'/tmp/abc.txt', content, (err) => {
+    await fs.writeFileSync('/tmp/abc.txt', content, (err) => {
         if(err) {
             console.log(err);
         }
@@ -45,7 +45,7 @@ app.get('/email', async  (req, res)=>{
     //read the email body from .html file
     let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
     //read the attachment file from .pdf file
-    let attachment = fs.readFileSync(__dirname+'/tmp/abc.txt').toString("base64");
+    let attachment = fs.readFileSync('/tmp/abc.txt').toString("base64");
 
     const msg = {
         to: emailAddr,
