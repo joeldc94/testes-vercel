@@ -20,7 +20,7 @@ app.get('/email', async  (req, res)=>{
     const emailAddr = 'joel@previsio.com.br';
 
 
-    let body = fs.readFileSync('emailTemplate.html', 'utf8');
+    let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
 
     const msg = {
         to: emailAddr,
