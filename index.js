@@ -71,8 +71,8 @@ app.get('/email', async  (req, res)=>{
     try{
         await sgMail.send(msg);
         console.log('Email enviado com sucesso!');
-        //await fs.unlinkSync(__dirname+'/tmp/abc.pdf');
-        //console.log('Arquivo deletado');
+        await fs.unlinkSync('/tmp/abc.txt');
+        console.log('Arquivo deletado');
         res.status(200).json('Email enviado com sucesso!');
     } catch(error){
         console.log(error);
