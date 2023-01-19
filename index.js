@@ -25,6 +25,7 @@ app.post('/email', async  (req, res)=>{
     
     
     const emailAddr = req.body.email;
+    
     console.log(`E-mail para: ${emailAddr}`);
     const content = 'test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123!';
 
