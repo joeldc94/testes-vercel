@@ -1,5 +1,7 @@
 //.env configuration file
 require('dotenv').config();
+
+const date = require('date-and-time');
 //express
 const express = require('express');
 const app = express();
@@ -34,9 +36,11 @@ app.get('/email', async  (req, res)=>{
         })
     })
     
+    let now = new Date();
+    //now = date.addHours(now, -3); //timezone america-sao Paulo
+    const dateTimeFilename = date.format(now, 'DDMMYY[_]HHmm');
 
-
-    await fs.writeFileSync('/tmp/abc.txt', content, (err) => {
+    await fs.writeFileSync(`./tmp/${dateTimeFilename}.txt`, content, (err) => {
         if(err) {
             console.log(err);
         }
@@ -45,7 +49,7 @@ app.get('/email', async  (req, res)=>{
     //read the email body from .html file
     let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
     //read the attachment file from .pdf file
-    let attachment = fs.readFileSync('/tmp/abc.txt').toString("base64");
+    let attachment = fs.readFileSync(`/tmp/${dateTimeFilename}.txt`).toString("base64");
 
     const msg = {
         to: emailAddr,
@@ -71,8 +75,8 @@ app.get('/email', async  (req, res)=>{
     try{
         await sgMail.send(msg);
         console.log('Email enviado com sucesso!');
-        await fs.unlinkSync('/tmp/abc.txt');
-        console.log('Arquivo deletado');
+        await fs.unlink(`/tmp/${dateTimeFilename}.txt`, ()=>{console.log('Arquivo deletado')});
+        
         res.status(200).json('Email enviado com sucesso!');
     } catch(error){
         console.log(error);
