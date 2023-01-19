@@ -17,14 +17,20 @@ app.use(express.json());
 
 
 
-app.get('/email', async  (req, res)=>{
+app.post('/email', async  (req, res)=>{
+
+    const tempFolder = '/tmp/'
+
+    //console.log(JSON.stringify(req.body));
     
-    const emailAddr = 'joel@previsio.com.br';
+    
+    const emailAddr = req.body.email;
+    console.log(`E-mail para: ${emailAddr}`);
     const content = 'test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123, test123!';
 
     // list all files in the directory
     
-    fs.readdir('/tmp', (err, files) => {
+    fs.readdir(tempFolder, (err, files) => {
         if (err) {
             throw err
         }
@@ -40,7 +46,7 @@ app.get('/email', async  (req, res)=>{
     //now = date.addHours(now, -3); //timezone america-sao Paulo
     const dateTimeFilename = date.format(now, 'DDMMYY[_]HHmm');
 
-    await fs.writeFileSync(`/tmp/${dateTimeFilename}.txt`, content, (err) => {
+    await fs.writeFileSync(tempFolder + `${dateTimeFilename}.txt`, content, (err) => {
         if(err) {
             console.log(err);
         }
@@ -49,7 +55,7 @@ app.get('/email', async  (req, res)=>{
     //read the email body from .html file
     let body = fs.readFileSync(__dirname+'/emailTemplate.html', 'utf8');
     //read the attachment file from .pdf file
-    let attachment = fs.readFileSync(`/tmp/${dateTimeFilename}.txt`).toString("base64");
+    let attachment = fs.readFileSync(tempFolder+`${dateTimeFilename}.txt`).toString("base64");
 
     const msg = {
         to: emailAddr,
@@ -75,8 +81,7 @@ app.get('/email', async  (req, res)=>{
     try{
         await sgMail.send(msg);
         console.log('Email enviado com sucesso!');
-        await fs.unlink(`/tmp/${dateTimeFilename}.txt`, ()=>{console.log('Arquivo deletado')});
-        
+        await fs.unlink(tempFolder+`${dateTimeFilename}.txt`, ()=>{console.log('Arquivo deletado')});
         res.status(200).json('Email enviado com sucesso!');
     } catch(error){
         console.log(error);
