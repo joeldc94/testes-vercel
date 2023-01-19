@@ -40,7 +40,7 @@ app.get('/email', async  (req, res)=>{
     //now = date.addHours(now, -3); //timezone america-sao Paulo
     const dateTimeFilename = date.format(now, 'DDMMYY[_]HHmm');
 
-    await fs.writeFileSync(`./tmp/${dateTimeFilename}.txt`, content, (err) => {
+    await fs.writeFileSync(`/tmp/${dateTimeFilename}.txt`, content, (err) => {
         if(err) {
             console.log(err);
         }
